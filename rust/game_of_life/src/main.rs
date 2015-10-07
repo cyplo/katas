@@ -10,7 +10,7 @@ impl WorldMap{
         WorldMap { map: HashSet::new() }
     }
    
-    // make self immutable here, return a new copy of World
+    // TODO: make self immutable here, return a new copy of World
     fn mark_cell_as_alive(& mut self, cell_coordinates: (i8, i8)) {
         self.map.insert(cell_coordinates);
     }
