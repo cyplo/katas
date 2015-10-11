@@ -4,6 +4,20 @@ struct WorldMap{
     map: HashSet<(i8, i8)>
 }
 
+fn get_neighbours_coordinates(cell_coordinates: (i8,i8)) -> HashSet<(i8,i8)> {
+    let mut neighbour_coordinates = HashSet::new(); 
+    let (x, y) = cell_coordinates;
+    neighbour_coordinates.insert((x-1, y-1));
+    neighbour_coordinates.insert((x-1, y));
+    neighbour_coordinates.insert((x-1, y+1));
+    neighbour_coordinates.insert((x, y-1));
+    neighbour_coordinates.insert((x, y+1));
+    neighbour_coordinates.insert((x+1, y-1));
+    neighbour_coordinates.insert((x+1, y));
+    neighbour_coordinates.insert((x+1, y+1));
+    return neighbour_coordinates;
+}
+
 impl WorldMap{
     
     fn empty() -> WorldMap {
@@ -25,17 +39,9 @@ impl WorldMap{
         return self.map.contains(&cell_coordinates);
     }
 
+
     fn count_alive_neighbours(&self, cell_coordinates: (i8, i8)) -> usize {
-        let mut neighbour_coordinates = HashSet::new(); 
-        let (x, y) = cell_coordinates;
-        neighbour_coordinates.insert((x-1, y-1));
-        neighbour_coordinates.insert((x-1, y));
-        neighbour_coordinates.insert((x-1, y+1));
-        neighbour_coordinates.insert((x, y-1));
-        neighbour_coordinates.insert((x, y+1));
-        neighbour_coordinates.insert((x+1, y-1));
-        neighbour_coordinates.insert((x+1, y));
-        neighbour_coordinates.insert((x+1, y+1));
+        let neighbour_coordinates = get_neighbours_coordinates(cell_coordinates);
         let neighbours_alive = self.map.intersection(&neighbour_coordinates).collect::<Vec<&(i8,i8)>>();
         return neighbours_alive.len();
     }
