@@ -51,6 +51,7 @@ impl WorldMap{
         let result = match alive_neighbours_count {
             0...1 => false,
             2...3 => true,
+            4...8 => false,
             _ => panic!("wrong number of neighbours: {}", alive_neighbours_count)
         };
         return result;
@@ -108,6 +109,23 @@ fn alive_cell_with_three_alive_neighbours_should_stay_alive() {
     let should_live = new_world.should_live(coords);
     assert!(should_live);    
 }
+
+#[test]
+// rule 3
+fn alive_cell_with_four_alive_neighbours_should_die() {
+    let (x, y) = (0,0);
+    let coords = (x,y);
+    let world = WorldMap::empty();
+    let new_world = world.
+        mark_cell_alive(coords).
+        mark_cell_alive((x, y+1)).
+        mark_cell_alive((x-1, y)).
+        mark_cell_alive((x-1, y+1)).
+        mark_cell_alive((x+1, y+1));
+    let should_die = !new_world.should_live(coords);
+    assert!(should_die);    
+}
+
 #[test]
 fn the_only_alive_cell_should_have_no_alive_neighbours() {
     let coords = (0,0);
