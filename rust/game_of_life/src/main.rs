@@ -51,6 +51,17 @@ fn the_only_alive_cell_should_have_no_alive_neighbours() {
 }
 
 #[test]
+fn alive_neighbour_on_the_diagonal_should_count() {
+    let (x, y) = (0,0);
+    let coords = (x,y);
+    let world = WorldMap::empty();
+    let new_world1 = world.mark_cell_as_alive(coords);
+    let new_world2 = new_world1.mark_cell_as_alive((x, y+1));
+    let alive_neighbours_count = new_world2.count_alive_neighbours(coords);
+    assert_eq!(1, alive_neighbours_count);
+}
+
+#[test]
 fn is_cell_alive_should_return_true_for_alive_cell() {
     let coords = (0,0);
     let world = WorldMap::empty();
