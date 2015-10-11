@@ -25,10 +25,33 @@ impl WorldMap{
         return self.map.contains(&cell_coordinates);
     }
 
+    fn count_alive_neighbours(&self, cell_coordinates: (i8, i8)) -> usize {
+        let mut neighbour_coordinates = HashSet::new(); 
+        let (x, y) = cell_coordinates;
+        neighbour_coordinates.insert((x-1, y-1));
+        neighbour_coordinates.insert((x-1, y));
+        neighbour_coordinates.insert((x-1, y+1));
+        neighbour_coordinates.insert((x, y-1));
+        neighbour_coordinates.insert((x, y+1));
+        neighbour_coordinates.insert((x+1, y-1));
+        neighbour_coordinates.insert((x+1, y));
+        neighbour_coordinates.insert((x+1, y+1));
+        let neighbours_alive = self.map.intersection(&neighbour_coordinates).collect::<Vec<&(i8,i8)>>();
+        return neighbours_alive.len();
+    }
 }
 
 #[test]
-fn is_cell_alive_should_return_true_for_alive_cell(){
+fn the_only_alive_cell_should_have_no_alive_neighbours() {
+    let coords = (0,0);
+    let world = WorldMap::empty();
+    let new_world = world.mark_cell_as_alive(coords);
+    let alive_neighbours_count = new_world.count_alive_neighbours(coords);
+    assert_eq!(0, alive_neighbours_count);
+}
+
+#[test]
+fn is_cell_alive_should_return_true_for_alive_cell() {
     let coords = (0,0);
     let world = WorldMap::empty();
     let new_world = world.mark_cell_as_alive(coords);
@@ -37,7 +60,7 @@ fn is_cell_alive_should_return_true_for_alive_cell(){
 }
 
 #[test]
-fn is_cell_alive_should_return_false_for_dead_cell(){
+fn is_cell_alive_should_return_false_for_dead_cell() {
     let coords = (0,0);
     let world = WorldMap::empty();
     let is_alive = world.is_cell_alive(coords);
