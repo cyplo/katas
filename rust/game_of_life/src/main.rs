@@ -47,12 +47,26 @@ impl WorldMap{
     }
     
     fn should_live(&self, cell_coordinates: (i8,i8)) -> bool {
+        let is_alive = self.is_cell_alive(cell_coordinates);
         let alive_neighbours_count = self.count_alive_neighbours(cell_coordinates);
-        let result = match alive_neighbours_count {
+        
+        // should live in the next iteration if alive now
+        let result_for_alive = match alive_neighbours_count {
             0...1 => false,
             2...3 => true,
             4...8 => false,
             _ => panic!("wrong number of neighbours: {}", alive_neighbours_count)
+        };
+
+        // should be alive in the next iteration if dead now
+        let result_for_dead = match alive_neighbours_count {
+            3 => true,
+            _ => false
+        };
+
+        let result = match is_alive {
+            true => result_for_alive,
+            false => result_for_dead
         };
         return result;
     }
@@ -126,6 +140,31 @@ fn alive_cell_with_four_alive_neighbours_should_die() {
     assert!(should_die);    
 }
 
+#[test]
+// rule 4
+fn dead_cell_with_three_alive_neighbours_should_come_alive() {
+    let (x, y) = (0,0);
+    let coords = (x,y);
+    let world = WorldMap::empty();
+    let new_world = world.
+        mark_cell_alive((x, y+1)).
+        mark_cell_alive((x-1, y)).
+        mark_cell_alive((x-1, y+1));
+    let should_live = new_world.should_live(coords);
+    assert!(should_live);    
+}
+
+#[test]
+fn dead_cell_with_dead_alive_neighbours_should_stay_dead() {
+    let (x, y) = (0,0);
+    let coords = (x,y);
+    let world = WorldMap::empty();
+    let new_world = world.
+        mark_cell_alive((x, y+1)).
+        mark_cell_alive((x-1, y));
+    let should_die = !new_world.should_live(coords);
+    assert!(should_die);    
+}
 #[test]
 fn the_only_alive_cell_should_have_no_alive_neighbours() {
     let coords = (0,0);
