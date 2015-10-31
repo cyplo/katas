@@ -2,5 +2,7 @@ language: rust
 script: 
     - cd rust/game_of_life
     - cargo test --verbose
+    - cd rust/binoff
+    - cargo test --verbose
 
 
