@@ -1,8 +1,10 @@
 language: rust
 script: 
-    - cd rust/game_of_life
+    - cd rust
+    - cd game_of_life
     - cargo test --verbose
-    - cd rust/binoff
+    - cd ..
+    - cd binoff
     - cargo test --verbose
 
 
