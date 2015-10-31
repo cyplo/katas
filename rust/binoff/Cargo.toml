@@ -1,0 +1,4 @@
+[package]
+name = "binoff"
+version = "0.1.0"
+authors = ["Cyryl Płotnicki-Chudyk <cyplo@cyplo.net>"]
