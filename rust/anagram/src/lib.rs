@@ -1,14 +1,13 @@
 extern crate core;
 use core::iter::FromIterator;
 
-pub fn anagrams_for<'a, 'b>(base_string: &str, candidates: &'a [&'b str]) -> Vec<&'b str> {
+pub fn anagrams_for<'a>(base_string: &str, candidates: &[&'a str]) -> Vec<&'a str> {
     let base_length = base_string.len();
-    let base_as_lowercase = base_string.to_lowercase().as_str();
     let filtered_candidates = candidates.iter()
-        .map(|word| word.to_lowercase().as_str())
         .filter(|candidate| candidate.len() == base_length)
-        .filter(|candidate| is_not_same_word(base_as_lowercase, candidate))
-        .filter(|candidate| has_all_letters(base_string, candidate));
+        .filter(|candidate| is_not_same_word(base_string, candidate))
+        .filter(|candidate| has_all_letters(base_string, candidate))
+        .map(|&candidate| candidate);
     Vec::from_iter(filtered_candidates)
 }
 
