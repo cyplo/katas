@@ -4,6 +4,15 @@ script:
     - cd game_of_life
     - cargo test --verbose
     - cd ..
+    - cd gigasecond
+    - cargo test --verbose
+    - cd ..
+    - cd anagram
+    - cargo test --verbose
+    - cd ..
+    - cd raindrops
+    - cargo test --verbose
+    - cd ..
     - cd binoff
     - cargo test --verbose
 
