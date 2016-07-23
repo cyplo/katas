@@ -8,17 +8,25 @@ pub fn raindrops(x: usize) -> String {
     let factors_as_tuples = sieve.factor(x).unwrap();
     let factors: Vec<usize> = factors_as_tuples.iter().map( |tuple| tuple.0 ).collect();
    
+    let mut result = "".to_string();
+    let mut found = false;
     if factors.iter().any(|&factor| factor == 3) {
-        return "Pling".to_string();
+        result = result + "Pling";
+        found = true;
     }
 
     if factors.iter().any(|&factor| factor == 5) {
-        return "Plang".to_string();
+        result = result + "Plang";
+        found = true;
     }
 
     if factors.iter().any(|&factor| factor == 7) {
-        return "Plong".to_string();
+        result = result + "Plong";
+        found = true;
     }
 
-    return x.to_string();
+    match found {
+        true => result,
+        false => x.to_string()
+    }
 }
