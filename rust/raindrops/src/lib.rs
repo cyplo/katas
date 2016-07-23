@@ -16,5 +16,9 @@ pub fn raindrops(x: usize) -> String {
         return "Plang".to_string();
     }
 
+    if factors.iter().any(|&factor| factor == 7) {
+        return "Plong".to_string();
+    }
+
     return x.to_string();
 }
